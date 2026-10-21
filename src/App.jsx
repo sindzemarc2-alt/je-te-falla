@@ -227,7 +227,7 @@ export default function App() {
 
   const triggerNotification = (msg) => {
     setNotification(msg);
-    setTimeout(() => setNotification('4000'), 4000);
+    setTimeout(() => setNotification(''), 4000);
   };
 
   const shareAnnonce = (post) => {
@@ -266,10 +266,18 @@ export default function App() {
         </div>
       )}
 
-      {/* HEADER DYNAMIQUE ET SÉRIEUX */}
+      {/* HEADER AVEC LISERÉ TRICOLORE CAMEROUN (VERT - ROUGE - JAUNE) */}
       <header className={`shadow-xl sticky top-0 z-40 transition-colors ${
         darkMode ? 'bg-slate-900/95 border-b border-slate-800' : 'bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white'
       } backdrop-blur-md`}>
+        
+        {/* Liseré discret aux couleurs du Cameroun au sommet du header */}
+        <div className="h-1.5 w-full grid grid-cols-3">
+          <div className="bg-emerald-600"></div>
+          <div className="bg-red-600"></div>
+          <div className="bg-yellow-400"></div>
+        </div>
+
         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center space-x-3">
             <div className={`p-1.5 rounded-xl shadow-lg ${darkMode ? 'bg-slate-800 border border-slate-700' : 'bg-white/95'}`}>
@@ -351,7 +359,7 @@ export default function App() {
         <Plus size={26} className="stroke-[3]" />
       </button>
 
-      {/* BANNIÈRE DYNAMIQUE */}
+      {/* BANNIÈRE DYNAMIQUE AVEC RAPPEL DU DRAPEAU */}
       <section className={`py-6 relative overflow-hidden shadow-lg border-b-4 border-yellow-400 z-10 ${
         darkMode ? 'bg-slate-900 text-slate-100' : 'bg-emerald-900 text-white'
       }`}>
@@ -360,7 +368,7 @@ export default function App() {
             <div>
               <div className="inline-flex items-center space-x-1.5 bg-red-600/30 border border-red-500/40 text-red-200 text-xs px-3 py-1 rounded-full font-bold mb-2">
                 <ShieldCheck size={14} className="text-red-400" />
-                <span>Plateforme de solidarité nationale</span>
+                <span>Plateforme de solidarité nationale 🇨🇲</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-black tracking-tight">
                 {activeTab === 'recherche' 
