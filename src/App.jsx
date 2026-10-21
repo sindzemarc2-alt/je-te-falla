@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, PlusCircle, MapPin, Phone, MessageSquare, 
   AlertTriangle, Package, Users, X, Loader, Share2, 
-  ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar, Plus, Eye
+  Sparkles, SlidersHorizontal, ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar, Plus, Eye
 } from 'lucide-react';
 import { 
   ajouterAnnonce, 
@@ -171,7 +171,7 @@ export default function App() {
     if (res.success) {
       setIsModalOpen(false);
       setImagePreview(null);
-      triggerNotification("Annonce publiée avec succès.");
+      triggerNotification("Annonce publiée ! Conservez votre code PIN pour la clôturer.");
       setNewPost({
         type: activeTab,
         category: activeTab === 'recherche' ? 'Personne disparue' : 'Pièce d\'identité (CNI)',
@@ -221,17 +221,17 @@ export default function App() {
 
     if (res.success) {
       setCommentText('');
-      triggerNotification("Commentaire ajouté.");
+      triggerNotification("Information ajoutée avec succès.");
     }
   };
 
   const triggerNotification = (msg) => {
     setNotification(msg);
-    setTimeout(() => setNotification(''), 4000);
+    setTimeout(() => setNotification('4000'), 4000);
   };
 
   const shareAnnonce = (post) => {
-    const text = `JE TE FALLA (Cameroun)\n\n${post.title}\nLocalisation : ${post.ville} (${post.quartier})\nContact : ${post.phone}\n\nConsultez l'annonce sur l'application.`;
+    const text = `JE TE FALLA (Cameroun)\n\n${post.title}\nLocalisation : ${post.ville} (${post.quartier})\nContact : ${post.phone}\n\nConsultez l'annonce sur la plateforme.`;
     if (navigator.share) {
       navigator.share({ title: post.title, text: text, url: window.location.href });
     } else {
@@ -242,57 +242,53 @@ export default function App() {
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 pb-24 md:pb-12 relative overflow-hidden ${
-      darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'
+      darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* FILIGRANE DISCRET */}
+      {/* FILIGRANE INSTITUTIONNEL */}
       <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
         <img 
           src={logoImg} 
           alt="Filigrane" 
           className={`w-[85vw] max-w-2xl object-contain transition-all duration-500 ${
-            darkMode ? 'opacity-5 filter invert' : 'opacity-5'
+            darkMode ? 'opacity-10 filter invert' : 'opacity-5'
           }`}
         />
       </div>
 
       {notification && (
-        <div className="fixed top-4 right-4 left-4 md:left-auto md:w-96 bg-slate-900 text-white p-4 rounded-2xl shadow-xl z-50 flex items-center justify-between border border-slate-700">
+        <div className="fixed top-4 right-4 left-4 md:left-auto md:w-96 bg-emerald-900 text-white p-4 rounded-2xl shadow-2xl z-50 flex items-center justify-between border-2 border-yellow-400">
           <div className="flex items-center space-x-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-            <span className="text-xs font-medium">{notification}</span>
+            <Sparkles size={18} className="text-yellow-400 shrink-0" />
+            <span className="text-xs font-bold">{notification}</span>
           </div>
-          <button onClick={() => setNotification('')} className="text-slate-400 hover:text-white"><X size={16} /></button>
+          <button onClick={() => setNotification('')}><X size={16} /></button>
         </div>
       )}
 
-      {/* HEADER */}
-      <header className={`shadow-sm sticky top-0 z-40 transition-colors ${
-        darkMode ? 'bg-slate-900/95 border-b border-slate-800' : 'bg-white/95 border-b border-slate-200'
+      {/* HEADER DYNAMIQUE ET SÉRIEUX */}
+      <header className={`shadow-xl sticky top-0 z-40 transition-colors ${
+        darkMode ? 'bg-slate-900/95 border-b border-slate-800' : 'bg-gradient-to-r from-emerald-950 via-emerald-900 to-teal-950 text-white'
       } backdrop-blur-md`}>
         <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
           <div className="flex items-center space-x-3">
-            <div className="p-1 rounded-xl bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700">
-              <img 
-                src={logoImg} 
-                alt="Logo" 
-                className="h-10 w-auto object-contain rounded-lg"
-              />
+            <div className={`p-1.5 rounded-xl shadow-lg ${darkMode ? 'bg-slate-800 border border-slate-700' : 'bg-white/95'}`}>
+              <img src={logoImg} alt="Logo" className="h-12 w-auto object-contain rounded-lg" />
             </div>
             <div>
-              <h1 className="font-bold text-sm tracking-tight">JE TE FALLA</h1>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">Plateforme citoyenne 🇨🇲</p>
+              <h1 className="font-black text-sm sm:text-base tracking-wider text-yellow-400">JE TE FALLA</h1>
+              <p className="text-[10px] text-slate-300 font-semibold tracking-wide">Réseau Citoyen National 🇨🇲</p>
             </div>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2.5">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`p-2 rounded-xl border transition-all flex items-center justify-center ${
-                darkMode ? 'bg-slate-800 border-slate-700 text-slate-300' : 'bg-slate-100 border-slate-200 text-slate-600'
+              className={`p-2.5 rounded-xl border transition-all flex items-center justify-center ${
+                darkMode ? 'bg-slate-800 border-slate-700 text-yellow-400' : 'bg-emerald-900/60 border-emerald-700 text-yellow-300'
               }`}
             >
-              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
             <button 
@@ -305,44 +301,40 @@ export default function App() {
                 setImagePreview(null);
                 setIsModalOpen(true);
               }}
-              className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-xl shadow-sm transition-all flex items-center space-x-1.5 text-xs tracking-wide shrink-0"
+              className="bg-gradient-to-r from-yellow-400 to-amber-500 hover:from-yellow-300 hover:to-amber-400 text-emerald-950 font-black px-4 py-2.5 rounded-xl shadow-xl transition-all flex items-center space-x-1.5 text-xs uppercase tracking-wider"
             >
-              <PlusCircle size={16} />
-              <span>Publier</span>
+              <PlusCircle size={18} />
+              <span>Publier une annonce</span>
             </button>
           </div>
         </div>
 
-        <div className={`${darkMode ? 'bg-slate-900/80 border-t border-slate-800' : 'bg-slate-50 border-t border-slate-200'}`}>
+        <div className={`${darkMode ? 'bg-slate-950/90 border-t border-slate-800' : 'bg-emerald-950/80 border-t border-emerald-800/50'} backdrop-blur`}>
           <div className="max-w-6xl mx-auto px-2 flex">
             <button
               onClick={() => { setActiveTab('recherche'); setSelectedCategory('Toutes'); }}
-              className={`flex-1 py-3 px-2 font-semibold text-center transition-all flex items-center justify-center space-x-2 border-b-2 ${
-                activeTab === 'recherche' 
-                  ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800' 
-                  : 'border-transparent text-slate-500 dark:text-slate-400'
+              className={`flex-1 py-3 px-2 font-black text-center transition-all flex items-center justify-center space-x-2 border-b-4 ${
+                activeTab === 'recherche' ? 'border-yellow-400 text-yellow-300 bg-emerald-900/60' : 'border-transparent text-emerald-200/80 hover:text-white'
               }`}
             >
-              <Users size={16} />
-              <span className="text-xs uppercase tracking-wider">Avis de recherche</span>
+              <Users size={16} className={activeTab === 'recherche' ? 'text-yellow-400' : ''} />
+              <span className="text-xs uppercase tracking-wider">📢 Avis de recherche</span>
             </button>
 
             <button
               onClick={() => { setActiveTab('objet'); setSelectedCategory('Toutes'); }}
-              className={`flex-1 py-3 px-2 font-semibold text-center transition-all flex items-center justify-center space-x-2 border-b-2 ${
-                activeTab === 'objet' 
-                  ? 'border-emerald-600 text-emerald-600 dark:text-emerald-400 bg-white dark:bg-slate-800' 
-                  : 'border-transparent text-slate-500 dark:text-slate-400'
+              className={`flex-1 py-3 px-2 font-black text-center transition-all flex items-center justify-center space-x-2 border-b-4 ${
+                activeTab === 'objet' ? 'border-yellow-400 text-yellow-300 bg-emerald-900/60' : 'border-transparent text-emerald-200/80 hover:text-white'
               }`}
             >
-              <Package size={16} />
-              <span className="text-xs uppercase tracking-wider">Objets perdus</span>
+              <Package size={16} className={activeTab === 'objet' ? 'text-yellow-400' : ''} />
+              <span className="text-xs uppercase tracking-wider">🔍 Objets perdus</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* BOUTON FLOTTANT MOBILE */}
+      {/* BOUTON FLOTTANT MOBILE DYNAMIQUE */}
       <button
         onClick={() => {
           setNewPost(prev => ({ 
@@ -353,15 +345,47 @@ export default function App() {
           setImagePreview(null);
           setIsModalOpen(true);
         }}
-        className="fixed bottom-6 right-6 z-40 bg-emerald-600 hover:bg-emerald-700 text-white p-4 rounded-full shadow-lg flex items-center justify-center transition-transform hover:scale-105"
+        className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-yellow-400 to-amber-500 text-emerald-950 p-4 rounded-full shadow-2xl flex items-center justify-center border-4 border-white dark:border-slate-900 animate-bounce hover:scale-110 transition-transform"
         title="Publier une annonce"
       >
-        <Plus size={24} className="stroke-[2.5]" />
+        <Plus size={26} className="stroke-[3]" />
       </button>
 
-      {/* FILTRES ET RECHERCHE */}
-      <div className="max-w-6xl mx-auto px-4 mt-6 relative z-20">
-        <div className={`rounded-2xl shadow-sm p-4 border transition-colors ${
+      {/* BANNIÈRE DYNAMIQUE */}
+      <section className={`py-6 relative overflow-hidden shadow-lg border-b-4 border-yellow-400 z-10 ${
+        darkMode ? 'bg-slate-900 text-slate-100' : 'bg-emerald-900 text-white'
+      }`}>
+        <div className="max-w-6xl mx-auto px-4 relative z-10">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+              <div className="inline-flex items-center space-x-1.5 bg-red-600/30 border border-red-500/40 text-red-200 text-xs px-3 py-1 rounded-full font-bold mb-2">
+                <ShieldCheck size={14} className="text-red-400" />
+                <span>Plateforme de solidarité nationale</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black tracking-tight">
+                {activeTab === 'recherche' 
+                  ? 'Aidez à retrouver un proche ou un disparu' 
+                  : 'Retrouvez vos CNI, passeports et objets égarés'}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-3 bg-slate-950/60 p-3 rounded-2xl border border-slate-700/50 self-start md:self-auto">
+              <div className="text-center px-3 border-r border-slate-700/50">
+                <span className="block text-xl font-black text-yellow-400">{filteredPosts.length}</span>
+                <span className="text-[10px] text-slate-300 font-bold uppercase">Actives</span>
+              </div>
+              <div className="text-center px-3">
+                <span className="block text-xl font-black text-emerald-400">{posts.filter(p => p.resolved).length}</span>
+                <span className="text-[10px] text-slate-300 font-bold uppercase">Retrouvés</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* RECHERCHE ET FILTRES PROFESSIONNELS */}
+      <div className="max-w-6xl mx-auto px-4 -mt-5 relative z-20">
+        <div className={`rounded-3xl shadow-xl p-4 border transition-colors ${
           darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'
         } space-y-3`}>
           <div className="flex flex-col md:flex-row gap-3">
@@ -372,18 +396,18 @@ export default function App() {
                 placeholder={activeTab === 'recherche' ? "Rechercher par nom, quartier..." : "Rechercher par nom sur CNI, objet..."}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-600 text-xs sm:text-sm ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs sm:text-sm font-medium ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-900'
                 }`}
               />
             </div>
 
             <div className="w-full md:w-48 relative">
-              <MapPin className="absolute left-3.5 top-3.5 text-slate-400" size={18} />
+              <MapPin className="absolute left-3.5 top-3.5 text-emerald-600" size={18} />
               <select
                 value={selectedVille}
                 onChange={(e) => setSelectedVille(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-600 text-xs sm:text-sm font-medium appearance-none cursor-pointer ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-emerald-600 text-xs sm:text-sm font-bold appearance-none cursor-pointer ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-800'
                 }`}
               >
@@ -394,59 +418,61 @@ export default function App() {
             </div>
 
             <div className="w-full md:w-48 relative">
-              <Calendar className="absolute left-3.5 top-3.5 text-slate-400" size={18} />
+              <Calendar className="absolute left-3.5 top-3.5 text-blue-500" size={18} />
               <select
                 value={selectedDateFilter}
                 onChange={(e) => setSelectedDateFilter(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-600 text-xs sm:text-sm font-medium appearance-none cursor-pointer ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm font-bold appearance-none cursor-pointer ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-800'
                 }`}
               >
                 <option value="toutes">Toutes les dates</option>
                 <option value="aujourdhui">Aujourd'hui</option>
-                <option value="7jours">7 derniers jours</option>
-                <option value="30jours">30 derniers jours</option>
+                <option value="7jours">Ces 7 derniers jours</option>
+                <option value="30jours">Ces 30 derniers jours</option>
               </select>
             </div>
 
             <div className="w-full md:w-48 relative">
-              <ArrowUpDown className="absolute left-3.5 top-3.5 text-slate-400" size={18} />
+              <ArrowUpDown className="absolute left-3.5 top-3.5 text-yellow-500" size={18} />
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className={`w-full pl-10 pr-4 py-2.5 border rounded-xl focus:outline-none focus:ring-1 focus:ring-emerald-600 text-xs sm:text-sm font-medium appearance-none cursor-pointer ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-2xl focus:outline-none focus:ring-2 focus:ring-yellow-500 text-xs sm:text-sm font-bold appearance-none cursor-pointer ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-800'
                 }`}
               >
-                <option value="recents">Plus récents</option>
+                <option value="recents">Plus récentes</option>
                 <option value="urgents">Urgences d'abord</option>
-                <option value="anciens">Plus anciens</option>
+                <option value="anciens">Plus anciennes</option>
               </select>
             </div>
 
             <button
               onClick={() => setShowOnlyUrgent(!showOnlyUrgent)}
-              className={`px-4 py-2.5 rounded-xl font-medium text-xs flex items-center justify-center space-x-1.5 transition-all border shrink-0 ${
+              className={`px-4 py-3 rounded-2xl font-bold text-xs flex items-center justify-center space-x-1.5 transition-all border shrink-0 ${
                 showOnlyUrgent 
-                  ? 'bg-rose-600 text-white border-rose-600' 
+                  ? 'bg-red-600 text-white border-red-600 shadow-md' 
                   : darkMode ? 'bg-slate-800 text-slate-300 border-slate-700' : 'bg-slate-50 text-slate-600 border-slate-200'
               }`}
             >
-              <AlertTriangle size={14} />
-              <span>Urgents</span>
+              <AlertTriangle size={15} />
+              <span>URGENTS</span>
             </button>
           </div>
 
           {activeTab === 'objet' && (
             <div className="flex items-center gap-2 overflow-x-auto pt-2 pb-1 scrollbar-none">
-              <span className="text-[11px] font-medium text-slate-400 uppercase shrink-0">Catégorie :</span>
+              <span className="text-[11px] font-black text-slate-400 uppercase shrink-0 flex items-center gap-1">
+                <SlidersHorizontal size={12} /> Catégorie :
+              </span>
               {CATEGORIES_OBJETS.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium shrink-0 transition-all ${
+                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold shrink-0 transition-all ${
                     selectedCategory === cat 
-                      ? 'bg-emerald-600 text-white' 
+                      ? 'bg-emerald-700 text-yellow-300 shadow' 
                       : darkMode ? 'bg-slate-800 text-slate-300' : 'bg-slate-100 text-slate-600'
                   }`}
                 >
@@ -459,64 +485,66 @@ export default function App() {
       </div>
 
       {/* LISTE DES ANNONCES */}
-      <main className="max-w-6xl mx-auto px-4 mt-6 relative z-10">
-        <div className="flex justify-between items-center mb-4">
-          <h2 className={`text-sm font-bold flex items-center gap-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>
-            <span>Annonces en cours</span>
-            <span className="bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs px-2.5 py-0.5 rounded-full font-semibold">
+      <main className="max-w-6xl mx-auto px-4 mt-8 relative z-10">
+        <div className="flex justify-between items-center mb-6">
+          <h3 className={`text-base font-extrabold flex items-center gap-2 ${darkMode ? 'text-slate-100' : 'text-slate-800'}`}>
+            <span>Annonces publiées</span>
+            <span className="bg-yellow-400 text-emerald-950 text-xs px-3 py-0.5 rounded-full font-black">
               {filteredPosts.length}
             </span>
-          </h2>
+          </h3>
         </div>
 
         {loading ? (
-          <div className="flex flex-col items-center justify-center py-20 text-slate-400">
-            <Loader className="animate-spin mb-2" size={32} />
-            <p className="text-xs font-medium">Chargement des annonces...</p>
+          <div className="flex flex-col items-center justify-center py-20 text-emerald-600">
+            <Loader className="animate-spin mb-3" size={40} />
+            <p className="text-xs font-black uppercase tracking-wider">Chargement des données...</p>
           </div>
         ) : filteredPosts.length === 0 ? (
-          <div className={`rounded-2xl p-12 text-center border border-dashed ${
+          <div className={`rounded-3xl p-12 text-center border-2 border-dashed ${
             darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-300'
           }`}>
-            <p className="text-sm font-medium text-slate-500">Aucune annonce active trouvée.</p>
+            <AlertTriangle className="mx-auto text-amber-500 mb-3" size={48} />
+            <h4 className="text-base font-bold">Aucune annonce active trouvée</h4>
+            <p className="text-xs text-slate-400 mt-2">Soyez le premier à publier une alerte citoyenne.</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredPosts.map((post) => {
               const postComments = comments.filter(c => c.postId === post.id);
 
               return (
                 <div 
                   key={post.id} 
-                  className={`rounded-2xl overflow-hidden border transition-all duration-200 flex flex-col group relative ${
-                    darkMode ? 'bg-slate-900 border-slate-800 shadow-sm' : 'bg-white border-slate-200 shadow-sm hover:shadow-md'
+                  className={`rounded-3xl overflow-hidden border transition-all duration-300 flex flex-col group relative ${
+                    darkMode ? 'bg-slate-900 border-slate-800 shadow-lg' : 'bg-white border-slate-200/90 shadow-md hover:shadow-xl'
                   }`}
                 >
                   {post.reward && (
-                    <div className="absolute top-3 right-3 z-10 bg-amber-500 text-white font-bold text-[10px] px-2.5 py-1 rounded-lg shadow">
-                      Récompense : {post.reward}
+                    <div className="absolute top-3 right-3 z-10 bg-yellow-400 text-emerald-950 font-black text-[11px] px-3 py-1 rounded-xl shadow-lg border border-yellow-500 animate-pulse">
+                      💰 Récompense : {post.reward}
                     </div>
                   )}
 
                   {post.photo && (
                     <div 
                       onClick={() => setSelectedPostDetail(post)}
-                      className="relative h-48 bg-slate-900 flex items-center justify-center overflow-hidden border-b border-slate-100 dark:border-slate-800 cursor-pointer"
+                      className="relative h-52 bg-slate-950 flex items-center justify-center overflow-hidden border-b border-slate-800 cursor-pointer"
                     >
                       <img 
                         src={post.photo} 
                         alt={post.title} 
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-3 left-3 flex flex-wrap gap-1.5 z-10">
                         {post.urgent && (
-                          <span className="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-                            Urgent
+                          <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow uppercase tracking-wider">
+                            URGENT
                           </span>
                         )}
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                        <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg shadow uppercase tracking-wider ${
                           post.status === 'Trouvé' ? 'bg-emerald-600 text-white' :
-                          post.status === 'Perdu' ? 'bg-amber-600 text-white' : 'bg-blue-600 text-white'
+                          post.status === 'Perdu' ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'
                         }`}>
                           {post.status}
                         </span>
@@ -524,92 +552,106 @@ export default function App() {
                     </div>
                   )}
 
-                  <div className="p-4 flex-1 flex flex-col justify-between">
+                  <div className="p-5 flex-1 flex flex-col justify-between">
                     <div>
                       {!post.photo && (
                         <div className="flex items-center gap-1.5 mb-2">
                           {post.urgent && (
-                            <span className="bg-rose-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase">
-                              Urgent
+                            <span className="bg-red-600 text-white text-[10px] font-black px-2.5 py-1 rounded-lg shadow uppercase tracking-wider">
+                              URGENT
                             </span>
                           )}
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded uppercase ${
+                          <span className={`text-[10px] font-black px-2.5 py-1 rounded-lg shadow uppercase tracking-wider ${
                             post.status === 'Trouvé' ? 'bg-emerald-600 text-white' :
-                            post.status === 'Perdu' ? 'bg-amber-600 text-white' : 'bg-blue-600 text-white'
+                            post.status === 'Perdu' ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'
                           }`}>
                             {post.status}
                           </span>
                         </div>
                       )}
 
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-[10px] font-semibold uppercase text-emerald-600 dark:text-emerald-400">
+                      <div className="flex items-center justify-between mb-1.5">
+                        <span className={`text-[11px] font-black uppercase tracking-wider px-2.5 py-0.5 rounded-md ${
+                          darkMode ? 'bg-slate-800 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
+                        }`}>
                           {post.category}
                         </span>
-                        <span className="text-[10px] text-slate-400">{post.date}</span>
+                        <span className="text-[10px] font-bold text-slate-400">{post.date}</span>
                       </div>
 
-                      <h3 
+                      <h4 
                         onClick={() => setSelectedPostDetail(post)}
-                        className="font-bold text-sm line-clamp-1 mb-1.5 cursor-pointer hover:text-emerald-600 transition-colors"
+                        className="font-extrabold text-base line-clamp-1 mb-2 cursor-pointer hover:text-emerald-600 transition-colors"
                       >
                         {post.title}
-                      </h3>
+                      </h4>
 
                       <p 
                         onClick={() => setSelectedPostDetail(post)}
-                        className="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 mb-3 cursor-pointer"
+                        className={`text-xs line-clamp-3 mb-4 leading-relaxed p-3 rounded-2xl border cursor-pointer ${
+                          darkMode ? 'bg-slate-800/50 border-slate-700 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-600'
+                        }`}
                       >
-                        {post.description || "Aucune description détaillée."}
+                        {post.description || "Aucune description détaillée fournie."}
                       </p>
                     </div>
 
                     <div>
-                      <div className="flex items-center text-xs mb-3 text-slate-500 dark:text-slate-400">
-                        <MapPin size={14} className="text-emerald-600 mr-1 shrink-0" />
-                        <span className="font-semibold text-slate-700 dark:text-slate-300 mr-1">{post.ville}</span>
-                        {post.quartier && <span className="truncate">({post.quartier})</span>}
+                      <div className={`flex items-center text-xs mb-3 p-3 rounded-2xl border ${
+                        darkMode ? 'bg-slate-800/80 border-slate-700 text-slate-300' : 'bg-emerald-50/60 border-emerald-100 text-slate-800'
+                      }`}>
+                        <MapPin size={16} className="text-emerald-600 mr-2 shrink-0" />
+                        <span className="font-black mr-1">{post.ville}</span>
+                        {post.quartier && <span className="text-slate-400 truncate">({post.quartier})</span>}
                       </div>
 
                       <button
                         onClick={() => setSelectedPostDetail(post)}
-                        className="w-full mb-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2 rounded-xl text-xs font-semibold flex items-center justify-center space-x-1 transition-all"
+                        className="w-full mb-2 bg-emerald-700 hover:bg-emerald-800 text-white py-2.5 rounded-xl text-xs font-black flex items-center justify-center space-x-1.5 shadow transition-all"
                       >
-                        <Eye size={14} />
-                        <span>Voir les détails</span>
+                        <Eye size={15} />
+                        <span>Voir tous les détails</span>
                       </button>
 
-                      <div className="grid grid-cols-4 gap-1.5 pt-2 border-t border-slate-100 dark:border-slate-800">
+                      <div className={`grid grid-cols-4 gap-1.5 pt-2.5 border-t ${darkMode ? 'border-slate-800' : 'border-slate-100'}`}>
                         <a 
                           href={`https://wa.me/${post.whatsapp}?text=Bonjour,%20je%20vous%20contacte%20depuis%20Je%20Te%20Falla%20au%20sujet%20de%20:%20${encodeURIComponent(post.title)}`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="col-span-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs flex items-center justify-center"
+                          className="col-span-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-1 rounded-xl text-xs flex items-center justify-center space-x-1 shadow"
                           title="WhatsApp"
                         >
                           <MessageSquare size={14} />
+                          <span className="hidden sm:inline">WA</span>
                         </a>
 
                         <a 
                           href={`tel:${post.phone}`}
-                          className="col-span-1 bg-slate-800 hover:bg-slate-900 text-white py-2 rounded-xl text-xs flex items-center justify-center dark:bg-slate-700"
+                          className={`col-span-1 font-bold py-2 px-1 rounded-xl text-xs flex items-center justify-center space-x-1 shadow ${
+                            darkMode ? 'bg-slate-800 text-slate-100 border border-slate-700' : 'bg-slate-900 text-white'
+                          }`}
                           title="Appeler"
                         >
                           <Phone size={14} />
+                          <span className="hidden sm:inline">Tel</span>
                         </a>
 
                         <button 
                           onClick={() => setActiveCommentsPost(post)}
-                          className="col-span-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-xl text-xs font-semibold flex items-center justify-center space-x-1"
+                          className={`col-span-1 font-bold py-2 px-1 rounded-xl text-xs flex items-center justify-center space-x-1 relative shadow ${
+                            darkMode ? 'bg-slate-800 text-yellow-400 border border-slate-700' : 'bg-yellow-100 text-emerald-950 border border-yellow-200'
+                          }`}
                           title="Commentaires"
                         >
                           <MessageCircle size={14} />
-                          <span className="text-[10px]">{postComments.length}</span>
+                          <span>{postComments.length}</span>
                         </button>
 
                         <button 
                           onClick={() => shareAnnonce(post)}
-                          className="col-span-1 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 py-2 rounded-xl text-xs flex items-center justify-center"
+                          className={`col-span-1 font-bold py-2 px-1 rounded-xl text-xs flex items-center justify-center space-x-1 shadow ${
+                            darkMode ? 'bg-slate-800 text-slate-300 border border-slate-700' : 'bg-slate-100 text-slate-700 border border-slate-200'
+                          }`}
                           title="Partager"
                         >
                           <Share2 size={14} />
@@ -624,27 +666,29 @@ export default function App() {
         )}
       </main>
 
-      {/* MODALE DETAILS */}
+      {/* MODALE DETAILS COMPLETS */}
       {selectedPostDetail && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
-          <div className={`rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl border flex flex-col ${
-            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3">
+          <div className={`rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border flex flex-col ${
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-100 text-slate-900'
           }`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-inherit z-10">
+            <div className={`p-4 border-b flex justify-between items-center sticky top-0 z-10 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
               <div className="flex items-center space-x-2">
-                <span className="text-[10px] font-bold uppercase text-emerald-600 dark:text-emerald-400">
+                <span className={`text-[10px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md ${
+                  darkMode ? 'bg-slate-800 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
+                }`}>
                   {selectedPostDetail.category}
                 </span>
-                <span className="text-[10px] text-slate-400">{selectedPostDetail.date}</span>
+                <span className="text-[10px] text-slate-400 font-bold">{selectedPostDetail.date}</span>
               </div>
-              <button onClick={() => setSelectedPostDetail(null)} className="text-slate-400 hover:text-white">
-                <X size={20} />
+              <button onClick={() => setSelectedPostDetail(null)} className="p-1 text-slate-400 hover:text-slate-100">
+                <X size={22} />
               </button>
             </div>
 
-            <div className="p-5 space-y-4">
+            <div className="p-6 space-y-4">
               {selectedPostDetail.photo && (
-                <div className="relative h-64 bg-slate-950 rounded-xl overflow-hidden flex items-center justify-center border border-slate-800">
+                <div className="relative h-72 bg-slate-950 rounded-2xl overflow-hidden flex items-center justify-center border border-slate-800 shadow-inner">
                   <img 
                     src={selectedPostDetail.photo} 
                     alt={selectedPostDetail.title} 
@@ -655,40 +699,40 @@ export default function App() {
 
               <div className="flex flex-wrap gap-2">
                 {selectedPostDetail.urgent && (
-                  <span className="bg-rose-600 text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase">
-                    Urgent
+                  <span className="bg-red-600 text-white text-xs font-black px-3 py-1 rounded-lg uppercase tracking-wider">
+                    ⚠️ URGENT
                   </span>
                 )}
-                <span className={`text-xs font-bold px-2.5 py-0.5 rounded uppercase ${
+                <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase tracking-wider ${
                   selectedPostDetail.status === 'Trouvé' ? 'bg-emerald-600 text-white' :
-                  selectedPostDetail.status === 'Perdu' ? 'bg-amber-600 text-white' : 'bg-blue-600 text-white'
+                  selectedPostDetail.status === 'Perdu' ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'
                 }`}>
                   {selectedPostDetail.status}
                 </span>
                 {selectedPostDetail.reward && (
-                  <span className="bg-amber-500 text-white font-bold text-xs px-2.5 py-0.5 rounded">
-                    Récompense : {selectedPostDetail.reward}
+                  <span className="bg-yellow-400 text-emerald-950 font-black text-xs px-3 py-1 rounded-lg shadow">
+                    💰 Récompense : {selectedPostDetail.reward}
                   </span>
                 )}
               </div>
 
               <div>
-                <h3 className="font-bold text-base mb-2">{selectedPostDetail.title}</h3>
-                <div className={`p-3.5 rounded-xl border text-xs leading-relaxed ${
-                  darkMode ? 'bg-slate-800/50 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+                <h3 className="text-lg font-black mb-2">{selectedPostDetail.title}</h3>
+                <div className={`p-4 rounded-2xl border text-xs leading-relaxed ${
+                  darkMode ? 'bg-slate-800/60 border-slate-700 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'
                 }`}>
-                  <p className="font-semibold text-slate-400 uppercase text-[10px] mb-1">Description :</p>
-                  {selectedPostDetail.description || "Aucune description supplémentaire."}
+                  <p className="font-bold text-slate-400 uppercase text-[10px] mb-1">Description complète :</p>
+                  {selectedPostDetail.description || "Aucune description supplémentaire fournie pour cette annonce."}
                 </div>
               </div>
 
-              <div className={`p-3.5 rounded-xl border flex items-center text-xs ${
-                darkMode ? 'bg-slate-800/50 border-slate-800 text-slate-300' : 'bg-slate-50 border-slate-200 text-slate-700'
+              <div className={`p-4 rounded-2xl border flex items-center text-xs ${
+                darkMode ? 'bg-slate-800/60 border-slate-700 text-slate-300' : 'bg-emerald-50/60 border-emerald-100 text-slate-800'
               }`}>
-                <MapPin size={16} className="text-emerald-600 mr-2 shrink-0" />
+                <MapPin size={18} className="text-emerald-600 mr-2 shrink-0" />
                 <div>
-                  <p className="font-semibold text-[10px] text-slate-400 uppercase">Localisation</p>
-                  <p className="font-bold text-sm">{selectedPostDetail.ville} {selectedPostDetail.quartier ? `(${selectedPostDetail.quartier})` : ''}</p>
+                  <p className="font-bold text-[10px] text-slate-400 uppercase">Localisation exacte</p>
+                  <p className="font-black text-sm">{selectedPostDetail.ville} {selectedPostDetail.quartier ? `(${selectedPostDetail.quartier})` : ''}</p>
                 </div>
               </div>
 
@@ -697,18 +741,18 @@ export default function App() {
                   href={`https://wa.me/${selectedPostDetail.whatsapp}?text=Bonjour,%20je%20vous%20contacte%20depuis%20Je%20Te%20Falla%20au%20sujet%20de%20:%20${encodeURIComponent(selectedPostDetail.title)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-3 rounded-xl text-xs flex items-center justify-center space-x-2"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-lg"
                 >
                   <MessageSquare size={16} />
-                  <span>WhatsApp</span>
+                  <span>WhatsApp direct</span>
                 </a>
 
                 <a 
                   href={`tel:${selectedPostDetail.phone}`}
-                  className="bg-slate-800 hover:bg-slate-900 text-white font-semibold py-3 px-3 rounded-xl text-xs flex items-center justify-center space-x-2 dark:bg-slate-700"
+                  className="bg-slate-900 hover:bg-slate-800 text-white font-black py-3 px-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-lg border border-slate-700"
                 >
                   <Phone size={16} />
-                  <span>Appeler</span>
+                  <span>Appeler ({selectedPostDetail.phone})</span>
                 </a>
               </div>
 
@@ -718,10 +762,10 @@ export default function App() {
                   setSelectedPostDetail(null);
                   setResolvePostTarget(target);
                 }}
-                className="w-full mt-2 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 py-2.5 rounded-xl text-xs font-semibold flex items-center justify-center space-x-1"
+                className="w-full mt-2 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-500 border border-yellow-400/30 py-3 rounded-xl text-xs font-black flex items-center justify-center space-x-1.5 transition-all"
               >
-                <CheckCircle size={14} />
-                <span>Clôturer / Marquer comme retrouvé</span>
+                <CheckCircle size={16} />
+                <span>C'est retrouvé / Clôturer cette annonce</span>
               </button>
             </div>
           </div>
@@ -730,22 +774,27 @@ export default function App() {
 
       {/* MODALE CLÔTURE PIN */}
       {resolvePostTarget && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
-          <div className={`rounded-2xl max-w-sm w-full p-5 shadow-xl border text-center ${
-            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3">
+          <div className={`rounded-3xl max-w-sm w-full p-6 shadow-2xl border text-center ${
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-100 text-slate-900'
           }`}>
-            <h3 className="font-bold text-sm mb-1">Clôturer l'annonce</h3>
-            <p className="text-xs text-slate-400 mb-4">Entrez votre code PIN secret :</p>
+            <div className="w-12 h-12 bg-emerald-100 text-emerald-800 rounded-full flex items-center justify-center mx-auto mb-3">
+              <CheckCircle size={26} />
+            </div>
+            <h4 className="font-extrabold text-base mb-1">Clôturer l'annonce</h4>
+            <p className="text-xs text-slate-400 mb-4">
+              Entrez votre code PIN secret : <strong>{resolvePostTarget.title}</strong>
+            </p>
 
             <form onSubmit={handleConfirmResolve} className="space-y-3">
               <input
                 type="password"
                 required
                 maxLength="6"
-                placeholder="PIN"
+                placeholder="Code PIN"
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                className={`w-full p-3 border rounded-xl text-center font-bold text-lg tracking-widest ${
+                className={`w-full p-3.5 border rounded-2xl text-center font-black text-xl tracking-widest ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                 }`}
               />
@@ -754,13 +803,13 @@ export default function App() {
                 <button
                   type="button"
                   onClick={() => { setResolvePostTarget(null); setPinInput(''); }}
-                  className="flex-1 py-2.5 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl text-xs"
+                  className="flex-1 py-3 bg-slate-200 text-slate-800 font-bold rounded-xl text-xs"
                 >
                   Annuler
                 </button>
                 <button
                   type="submit"
-                  className="flex-1 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl text-xs"
+                  className="flex-1 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-xl text-xs shadow-md"
                 >
                   Confirmer
                 </button>
@@ -772,47 +821,49 @@ export default function App() {
 
       {/* MODALE COMMENTAIRES */}
       {activeCommentsPost && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
-          <div className={`rounded-2xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-xl border ${
-            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3">
+          <div className={`rounded-3xl max-w-lg w-full max-h-[85vh] flex flex-col shadow-2xl border ${
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-100 text-slate-900'
           }`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center">
+            <div className={`p-4 border-b flex justify-between items-center ${darkMode ? 'border-slate-800' : 'border-slate-100'}`}>
               <div>
-                <h3 className="font-bold text-xs line-clamp-1">{activeCommentsPost.title}</h3>
-                <p className="text-[10px] text-slate-400">Commentaires et pistes</p>
+                <h4 className="font-extrabold text-sm line-clamp-1">{activeCommentsPost.title}</h4>
+                <p className="text-[10px] text-slate-400 font-semibold">Pistes et commentaires en direct</p>
               </div>
-              <button onClick={() => setActiveCommentsPost(null)} className="text-slate-400 hover:text-white">
-                <X size={18} />
+              <button onClick={() => setActiveCommentsPost(null)} className="p-1 text-slate-400">
+                <X size={20} />
               </button>
             </div>
 
-            <div className="p-4 flex-1 overflow-y-auto space-y-2.5">
+            <div className="p-4 flex-1 overflow-y-auto space-y-3">
               {comments.filter(c => c.postId === activeCommentsPost.id).length === 0 ? (
                 <div className="text-center py-8 text-slate-400 text-xs">
-                  Aucun commentaire pour le moment.
+                  Aucun commentaire pour l'instant. Soyez le premier à apporter une piste.
                 </div>
               ) : (
                 comments.filter(c => c.postId === activeCommentsPost.id).map(c => (
-                  <div key={c.id} className={`p-3 rounded-xl text-xs border ${
-                    darkMode ? 'bg-slate-800/50 border-slate-800' : 'bg-slate-50 border-slate-200'
+                  <div key={c.id} className={`p-3.5 rounded-2xl text-xs border ${
+                    darkMode ? 'bg-slate-800/60 border-slate-700' : 'bg-slate-50 border-slate-200'
                   }`}>
-                    <div className="flex justify-between items-center font-semibold mb-1 text-emerald-600 dark:text-emerald-400">
-                      <span>{c.auteur}</span>
+                    <div className="flex justify-between items-center font-bold mb-1 text-emerald-600 dark:text-emerald-400">
+                      <span>👤 {c.auteur}</span>
                       <span className="text-[10px] text-slate-400 font-normal">{c.dateStr}</span>
                     </div>
-                    <p className="text-slate-600 dark:text-slate-300">{c.texte}</p>
+                    <p className="leading-relaxed">{c.texte}</p>
                   </div>
                 ))
               )}
             </div>
 
-            <form onSubmit={handleAddComment} className="p-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
+            <form onSubmit={handleAddComment} className={`p-4 border-t space-y-2.5 ${
+              darkMode ? 'border-slate-800 bg-slate-950/40' : 'border-slate-100 bg-slate-50'
+            }`}>
               <input
                 type="text"
                 placeholder="Votre nom ou quartier"
                 value={commentAuthor}
                 onChange={(e) => setCommentAuthor(e.target.value)}
-                className={`w-full p-2 rounded-xl text-xs border ${
+                className={`w-full p-2.5 rounded-xl text-xs border font-medium ${
                   darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-200'
                 }`}
               />
@@ -820,19 +871,19 @@ export default function App() {
                 <input
                   type="text"
                   required
-                  placeholder="Écrire une information utile..."
+                  placeholder="Écrivez une information ou un indice utile..."
                   value={commentText}
                   onChange={(e) => setCommentText(e.target.value)}
-                  className={`flex-1 p-2.5 rounded-xl text-xs border ${
+                  className={`flex-1 p-3 rounded-xl text-xs border font-medium ${
                     darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-white border-slate-200'
                   }`}
                 />
                 <button
                   type="submit"
                   disabled={sendingComment}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 rounded-xl font-semibold text-xs flex items-center justify-center shrink-0"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-4 rounded-xl font-bold text-xs flex items-center justify-center shrink-0 shadow"
                 >
-                  {sendingComment ? <Loader className="animate-spin" size={14} /> : <Send size={14} />}
+                  {sendingComment ? <Loader className="animate-spin" size={16} /> : <Send size={16} />}
                 </button>
               </div>
             </form>
@@ -842,26 +893,34 @@ export default function App() {
 
       {/* MODALE PUBLICATION */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center p-3">
-          <div className={`rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-xl border ${
-            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-200 text-slate-900'
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3">
+          <div className={`rounded-3xl max-w-lg w-full max-h-[92vh] overflow-y-auto shadow-2xl border ${
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-100 text-slate-900'
           }`}>
-            <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center sticky top-0 bg-inherit z-10">
-              <h3 className="font-bold text-xs uppercase tracking-wide">
-                Publier : {activeTab === 'recherche' ? 'Avis de recherche' : 'Objet perdu'}
-              </h3>
-              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-white">
-                <X size={20} />
+            <div className={`p-4 border-b flex justify-between items-center sticky top-0 z-10 ${
+              darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'
+            }`}>
+              <div className="flex items-center space-x-2">
+                <img src={logoImg} alt="Logo" className="h-10 w-auto" />
+                <div>
+                  <h3 className="font-extrabold text-sm">
+                    Publier : {activeTab === 'recherche' ? '📢 Avis de recherche' : '🔍 Objet perdu'}
+                  </h3>
+                  <p className="text-[10px] text-slate-400 font-semibold">JE TE FALLA - Plateforme Citoyenne 🇨🇲</p>
+                </div>
+              </div>
+              <button onClick={() => setIsModalOpen(false)} className="text-slate-400 hover:text-slate-100">
+                <X size={22} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmitNewPost} className="p-5 space-y-3.5">
+            <form onSubmit={handleSubmitNewPost} className="p-6 space-y-4">
               <div>
-                <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Catégorie</label>
+                <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Catégorie</label>
                 <select
                   value={newPost.category}
                   onChange={(e) => setNewPost({ ...newPost, category: e.target.value })}
-                  className={`w-full p-2.5 border rounded-xl text-xs font-medium ${
+                  className={`w-full p-3 border rounded-2xl text-xs font-bold ${
                     darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200 text-slate-800'
                   }`}
                 >
@@ -887,36 +946,36 @@ export default function App() {
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Titre *</label>
+                <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Titre de l'annonce *</label>
                 <input
                   type="text"
                   required
                   placeholder="ex: CNI au nom de NKOLO Paul"
                   value={newPost.title}
                   onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                  className={`w-full p-2.5 border rounded-xl text-xs ${
+                  className={`w-full p-3 border rounded-2xl text-xs font-medium ${
                     darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                   }`}
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Description</label>
+                <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Description détaillée</label>
                 <textarea
                   rows="3"
-                  placeholder="Détails supplémentaires..."
+                  placeholder="Donnez le maximum de précisions utiles..."
                   value={newPost.description}
                   onChange={(e) => setNewPost({ ...newPost, description: e.target.value })}
-                  className={`w-full p-2.5 border rounded-xl text-xs ${
+                  className={`w-full p-3 border rounded-2xl text-xs font-medium ${
                     darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                   }`}
                 ></textarea>
               </div>
 
               <div>
-                <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Photo (Optionnel)</label>
-                <div className={`p-4 border-2 border-dashed rounded-xl text-center relative cursor-pointer ${
-                  darkMode ? 'border-slate-700 bg-slate-800/50' : 'border-slate-200 bg-slate-50'
+                <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Photo justificative (Optionnel)</label>
+                <div className={`p-4 border-2 border-dashed rounded-2xl text-center relative cursor-pointer ${
+                  darkMode ? 'border-slate-700 bg-slate-800/40' : 'border-slate-200 bg-slate-50'
                 }`}>
                   <input
                     type="file"
@@ -925,11 +984,13 @@ export default function App() {
                     className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
                   />
                   {imagePreview ? (
-                    <img src={imagePreview} alt="Aperçu" className="h-24 object-cover mx-auto rounded-lg" />
+                    <div className="relative inline-block">
+                      <img src={imagePreview} alt="Aperçu" className="h-28 object-contain rounded-xl shadow border border-emerald-500 bg-black" />
+                    </div>
                   ) : (
                     <div className="flex flex-col items-center py-2 text-slate-400">
-                      <UploadCloud size={24} className="mb-1 text-emerald-600" />
-                      <span className="text-xs font-medium">Ajouter une photo</span>
+                      <UploadCloud size={28} className="mb-1 text-emerald-600" />
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Cliquez pour importer une photo</span>
                     </div>
                   )}
                 </div>
@@ -937,11 +998,11 @@ export default function App() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Ville</label>
+                  <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Ville *</label>
                   <select
                     value={newPost.ville}
                     onChange={(e) => setNewPost({ ...newPost, ville: e.target.value })}
-                    className={`w-full p-2.5 border rounded-xl text-xs font-medium ${
+                    className={`w-full p-3 border rounded-2xl text-xs font-bold ${
                       darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                     }`}
                   >
@@ -951,13 +1012,13 @@ export default function App() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Quartier</label>
+                  <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Quartier</label>
                   <input
                     type="text"
                     placeholder="ex: Akwa"
                     value={newPost.quartier}
                     onChange={(e) => setNewPost({ ...newPost, quartier: e.target.value })}
-                    className={`w-full p-2.5 border rounded-xl text-xs ${
+                    className={`w-full p-3 border rounded-2xl text-xs font-medium ${
                       darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                     }`}
                   />
@@ -966,20 +1027,20 @@ export default function App() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Téléphone *</label>
+                  <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Téléphone *</label>
                   <input
                     type="tel"
                     required
                     placeholder="6XXXXXXXX"
                     value={newPost.phone}
                     onChange={(e) => setNewPost({ ...newPost, phone: e.target.value })}
-                    className={`w-full p-2.5 border rounded-xl text-xs font-medium ${
+                    className={`w-full p-3 border rounded-2xl text-xs font-bold ${
                       darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                     }`}
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-semibold uppercase mb-1 text-slate-400">Code PIN Secret *</label>
+                  <label className="block text-[11px] font-black uppercase tracking-wider mb-1 text-slate-400">Code PIN Secret *</label>
                   <input
                     type="password"
                     required
@@ -987,7 +1048,7 @@ export default function App() {
                     placeholder="ex: 1234"
                     value={newPost.pinCode}
                     onChange={(e) => setNewPost({ ...newPost, pinCode: e.target.value })}
-                    className={`w-full p-2.5 border rounded-xl text-xs font-medium ${
+                    className={`w-full p-3 border rounded-2xl text-xs font-bold ${
                       darkMode ? 'bg-slate-800 border-slate-700 text-slate-100' : 'bg-slate-50 border-slate-200'
                     }`}
                   />
@@ -997,9 +1058,9 @@ export default function App() {
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl shadow-sm text-xs uppercase tracking-wider flex items-center justify-center space-x-2 mt-4"
+                className="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-black py-4 rounded-2xl shadow-xl text-xs uppercase tracking-wider flex items-center justify-center space-x-2 mt-4"
               >
-                {submitting ? <Loader className="animate-spin" size={16} /> : <span>Valider la publication</span>}
+                {submitting ? <Loader className="animate-spin" size={16} /> : <span>Valider et publier l'annonce</span>}
               </button>
             </form>
           </div>
