@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, PlusCircle, MapPin, Phone, MessageSquare, 
   AlertTriangle, Package, Users, X, Loader, Share2, 
-  Sparkles, SlidersHorizontal, ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar, Plus
+  Sparkles, SlidersHorizontal, ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar, Plus, Eye
 } from 'lucide-react';
 import { 
   ajouterAnnonce, 
@@ -41,6 +41,7 @@ export default function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [activeCommentsPost, setActiveCommentsPost] = useState(null);
   const [resolvePostTarget, setResolvePostTarget] = useState(null);
+  const [selectedPostDetail, setSelectedPostDetail] = useState(null); // NOUVEAU : Pour voir les détails complets d'une annonce
   const [pinInput, setPinInput] = useState('');
 
   const [commentAuthor, setCommentAuthor] = useState('');
@@ -271,15 +272,15 @@ export default function App() {
       <header className={`shadow-xl sticky top-0 z-40 transition-colors ${
         darkMode ? 'bg-slate-900/95 border-b border-slate-800' : 'bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 text-white'
       } backdrop-blur-md`}>
-        <div className="max-w-6xl mx-auto px-4 py-3 flex justify-between items-center">
-          <div className="flex items-center space-x-3">
-            <div className={`p-1.5 rounded-2xl transition-all shadow-lg ${
+        <div className="max-w-6xl mx-auto px-3 py-2 flex justify-between items-center">
+          <div className="flex items-center space-x-2">
+            <div className={`p-1 rounded-xl transition-all shadow-lg ${
               darkMode ? 'bg-slate-800 border border-slate-700' : 'bg-white/95'
             }`}>
               <img 
                 src={logoImg} 
                 alt="Logo Je Te Falla" 
-                className="h-14 sm:h-20 w-auto object-contain rounded-xl"
+                className="h-12 sm:h-16 w-auto object-contain rounded-lg"
               />
             </div>
           </div>
@@ -287,14 +288,13 @@ export default function App() {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setDarkMode(!darkMode)}
-              className={`p-2.5 rounded-2xl border transition-all flex items-center justify-center ${
+              className={`p-2 rounded-xl border transition-all flex items-center justify-center ${
                 darkMode ? 'bg-slate-800 border-slate-700 text-yellow-400' : 'bg-emerald-950/60 border-emerald-700/60 text-yellow-300'
               }`}
             >
-              {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+              {darkMode ? <Sun size={16} /> : <Moon size={16} />}
             </button>
 
-            {/* BOUTON PUBLIER DANS LE HEADER (VISIBLE PARTOUT MAINTENANT) */}
             <button 
               onClick={() => {
                 setNewPost(prev => ({ 
@@ -305,11 +305,10 @@ export default function App() {
                 setImagePreview(null);
                 setIsModalOpen(true);
               }}
-              className="bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-extrabold px-3.5 sm:px-5 py-2.5 rounded-2xl shadow-lg transition-all flex items-center space-x-1.5 text-xs uppercase tracking-wider"
+              className="bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-extrabold px-3 py-2 rounded-xl shadow-lg transition-all flex items-center space-x-1 text-[11px] sm:text-xs uppercase tracking-wider shrink-0"
             >
-              <PlusCircle size={18} />
-              <span className="hidden sm:inline">Publier une annonce</span>
-              <span className="inline sm:hidden">Publier</span>
+              <PlusCircle size={16} />
+              <span>Publier</span>
             </button>
           </div>
         </div>
@@ -318,28 +317,28 @@ export default function App() {
           <div className="max-w-6xl mx-auto px-2 flex">
             <button
               onClick={() => { setActiveTab('recherche'); setSelectedCategory('Toutes'); }}
-              className={`flex-1 py-3.5 px-2 font-black text-center transition-all flex items-center justify-center space-x-2 border-b-4 ${
+              className={`flex-1 py-3 px-1 font-black text-center transition-all flex items-center justify-center space-x-1.5 border-b-4 ${
                 activeTab === 'recherche' ? 'border-yellow-400 text-yellow-300 bg-emerald-900/60' : 'border-transparent text-emerald-200/80'
               }`}
             >
-              <Users size={18} className={activeTab === 'recherche' ? 'text-yellow-400' : ''} />
-              <span className="text-xs sm:text-sm uppercase tracking-wider">📢 Avis de Recherche</span>
+              <Users size={16} className={activeTab === 'recherche' ? 'text-yellow-400' : ''} />
+              <span className="text-[11px] sm:text-sm uppercase tracking-wider">📢 Recherche</span>
             </button>
 
             <button
               onClick={() => { setActiveTab('objet'); setSelectedCategory('Toutes'); }}
-              className={`flex-1 py-3.5 px-2 font-black text-center transition-all flex items-center justify-center space-x-2 border-b-4 ${
+              className={`flex-1 py-3 px-1 font-black text-center transition-all flex items-center justify-center space-x-1.5 border-b-4 ${
                 activeTab === 'objet' ? 'border-yellow-400 text-yellow-300 bg-emerald-900/60' : 'border-transparent text-emerald-200/80'
               }`}
             >
-              <Package size={18} className={activeTab === 'objet' ? 'text-yellow-400' : ''} />
-              <span className="text-xs sm:text-sm uppercase tracking-wider">🔍 Objets Perdus</span>
+              <Package size={16} className={activeTab === 'objet' ? 'text-yellow-400' : ''} />
+              <span className="text-[11px] sm:text-sm uppercase tracking-wider">🔍 Objets Perdus</span>
             </button>
           </div>
         </div>
       </header>
 
-      {/* BOUTON FLOTTANT EN BAS À DROITE POUR TÉLÉPHONE */}
+      {/* BOUTON FLOTTANT EN BAS À DROITE */}
       <button
         onClick={() => {
           setNewPost(prev => ({ 
@@ -357,7 +356,7 @@ export default function App() {
       </button>
 
       {/* BANNIÈRE */}
-      <section className={`py-8 relative overflow-hidden shadow-lg border-b-4 border-yellow-400 z-10 ${
+      <section className={`py-6 relative overflow-hidden shadow-lg border-b-4 border-yellow-400 z-10 ${
         darkMode ? 'bg-slate-900/90 text-slate-100' : 'bg-emerald-900/95 text-white'
       }`}>
         <div className="max-w-6xl mx-auto px-4 relative z-10">
@@ -367,7 +366,7 @@ export default function App() {
                 <ShieldCheck size={14} className="text-red-400" />
                 <span>Plateforme Citoyenne Nationale</span>
               </div>
-              <h2 className="text-2xl sm:text-4xl font-black tracking-tight">
+              <h2 className="text-xl sm:text-3xl font-black tracking-tight">
                 {activeTab === 'recherche' 
                   ? 'Aidez à retrouver un proche ou un disparu' 
                   : 'Retrouvez vos CNI, Passeports et Effets perdus'}
@@ -389,7 +388,7 @@ export default function App() {
       </section>
 
       {/* RECHERCHE ET FILTRES */}
-      <div className="max-w-6xl mx-auto px-4 -mt-6 relative z-20">
+      <div className="max-w-6xl mx-auto px-4 -mt-5 relative z-20">
         <div className={`rounded-3xl shadow-xl p-4 border transition-colors ${
           darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-white/95 border-slate-200/80'
         } space-y-3 backdrop-blur-md`}>
@@ -527,8 +526,12 @@ export default function App() {
                     </div>
                   )}
 
+                  {/* PHOTO CLIQUABLE POUR VOIR LES DÉTAILS */}
                   {post.photo && (
-                    <div className="relative h-56 bg-slate-900 flex items-center justify-center overflow-hidden border-b border-slate-800">
+                    <div 
+                      onClick={() => setSelectedPostDetail(post)}
+                      className="relative h-56 bg-slate-900 flex items-center justify-center overflow-hidden border-b border-slate-800 cursor-pointer"
+                    >
                       <img 
                         src={post.photo} 
                         alt={post.title} 
@@ -577,14 +580,21 @@ export default function App() {
                         <span className="text-[10px] font-bold text-slate-400">{post.date}</span>
                       </div>
 
-                      <h4 className="font-extrabold text-base line-clamp-1 mb-2">
+                      {/* TITRE CLIQUABLE POUR VOIR LES DÉTAILS */}
+                      <h4 
+                        onClick={() => setSelectedPostDetail(post)}
+                        className="font-extrabold text-base line-clamp-1 mb-2 cursor-pointer hover:text-emerald-500 transition-colors"
+                      >
                         {post.title}
                       </h4>
 
-                      <p className={`text-xs line-clamp-3 mb-3 leading-relaxed p-2.5 rounded-xl border ${
-                        darkMode ? 'bg-slate-800/50 border-slate-800 text-slate-300' : 'bg-slate-50/50 border-slate-100 text-slate-600'
-                      }`}>
-                        {post.description}
+                      <p 
+                        onClick={() => setSelectedPostDetail(post)}
+                        className={`text-xs line-clamp-3 mb-3 leading-relaxed p-2.5 rounded-xl border cursor-pointer ${
+                          darkMode ? 'bg-slate-800/50 border-slate-800 text-slate-300 hover:border-slate-600' : 'bg-slate-50/50 border-slate-100 text-slate-600 hover:border-slate-300'
+                        }`}
+                      >
+                        {post.description || "Aucune description détaillée fournie."}
                       </p>
                     </div>
 
@@ -597,12 +607,13 @@ export default function App() {
                         {post.quartier && <span className="text-slate-400 truncate">({post.quartier})</span>}
                       </div>
 
+                      {/* BOUTON VOIR LES DÉTAILS */}
                       <button
-                        onClick={() => setResolvePostTarget(post)}
-                        className="w-full mb-2 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-500 border border-yellow-400/30 py-1.5 rounded-xl text-xs font-black flex items-center justify-center space-x-1 transition-all"
+                        onClick={() => setSelectedPostDetail(post)}
+                        className="w-full mb-2 bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl text-xs font-black flex items-center justify-center space-x-1 shadow transition-all"
                       >
-                        <CheckCircle size={14} />
-                        <span>C'est retrouvé / Clôturer</span>
+                        <Eye size={14} />
+                        <span>Voir tous les détails</span>
                       </button>
 
                       <div className={`grid grid-cols-4 gap-1.5 pt-2 border-t ${darkMode ? 'border-slate-800' : 'border-slate-100'}`}>
@@ -653,6 +664,112 @@ export default function App() {
           </div>
         )}
       </main>
+
+      {/* NOUVELLE MODALE : VOIR TOUS LES DÉTAILS D'UNE ANNONCE */}
+      {selectedPostDetail && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-50 flex items-center justify-center p-3">
+          <div className={`rounded-3xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl border flex flex-col ${
+            darkMode ? 'bg-slate-900 border-slate-800 text-slate-100' : 'bg-white border-slate-100 text-slate-900'
+          }`}>
+            <div className={`p-4 border-b flex justify-between items-center sticky top-0 z-10 ${darkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-100'}`}>
+              <div className="flex items-center space-x-2">
+                <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-md ${
+                  darkMode ? 'bg-slate-800 text-emerald-400' : 'bg-emerald-50 text-emerald-700'
+                }`}>
+                  {selectedPostDetail.category}
+                </span>
+                <span className="text-[10px] text-slate-400 font-bold">{selectedPostDetail.date}</span>
+              </div>
+              <button onClick={() => setSelectedPostDetail(null)} className="p-1 text-slate-400 hover:text-slate-100">
+                <X size={22} />
+              </button>
+            </div>
+
+            <div className="p-5 space-y-4">
+              {selectedPostDetail.photo && (
+                <div className="relative h-72 bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-slate-800">
+                  <img 
+                    src={selectedPostDetail.photo} 
+                    alt={selectedPostDetail.title} 
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              )}
+
+              <div className="flex flex-wrap gap-2">
+                {selectedPostDetail.urgent && (
+                  <span className="bg-red-600 text-white text-xs font-black px-3 py-1 rounded-lg uppercase">
+                    ⚠️ URGENT
+                  </span>
+                )}
+                <span className={`text-xs font-black px-3 py-1 rounded-lg uppercase ${
+                  selectedPostDetail.status === 'Trouvé' ? 'bg-emerald-600 text-white' :
+                  selectedPostDetail.status === 'Perdu' ? 'bg-amber-500 text-white' : 'bg-blue-600 text-white'
+                }`}>
+                  {selectedPostDetail.status}
+                </span>
+                {selectedPostDetail.reward && (
+                  <span className="bg-yellow-400 text-emerald-950 font-black text-xs px-3 py-1 rounded-lg">
+                    💰 Récompense : {selectedPostDetail.reward}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <h3 className="text-lg font-black mb-2">{selectedPostDetail.title}</h3>
+                <div className={`p-3.5 rounded-2xl border text-xs leading-relaxed ${
+                  darkMode ? 'bg-slate-800/60 border-slate-700 text-slate-200' : 'bg-slate-50 border-slate-200 text-slate-700'
+                }`}>
+                  <p className="font-bold text-slate-400 uppercase text-[10px] mb-1">Description complète :</p>
+                  {selectedPostDetail.description || "Aucune description supplémentaire fournie pour cette annonce."}
+                </div>
+              </div>
+
+              <div className={`p-3.5 rounded-2xl border flex items-center text-xs ${
+                darkMode ? 'bg-slate-800/60 border-slate-700 text-slate-300' : 'bg-emerald-50/50 border-emerald-100 text-slate-700'
+              }`}>
+                <MapPin size={18} className="text-emerald-500 mr-2 shrink-0" />
+                <div>
+                  <p className="font-bold text-[10px] text-slate-400 uppercase">Localisation</p>
+                  <p className="font-black text-sm">{selectedPostDetail.ville} {selectedPostDetail.quartier ? `(${selectedPostDetail.quartier})` : ''}</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3 pt-2">
+                <a 
+                  href={`https://wa.me/${selectedPostDetail.whatsapp}?text=Bonjour,%20je%20vous%20contacte%20depuis%20Je%20Te%20Falla%20au%20sujet%20de%20:%20${encodeURIComponent(selectedPostDetail.title)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-black py-3 px-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow"
+                >
+                  <MessageSquare size={16} />
+                  <span>Contacter WhatsApp</span>
+                </a>
+
+                <a 
+                  href={`tel:${selectedPostDetail.phone}`}
+                  className="bg-slate-800 hover:bg-slate-900 text-white font-black py-3 px-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow border border-slate-700"
+                >
+                  <Phone size={16} />
+                  <span>Appeler ({selectedPostDetail.phone})</span>
+                </a>
+              </div>
+
+              <button
+                onClick={() => {
+                  const target = selectedPostDetail;
+                  setSelectedPostDetail(null);
+                  setResolvePostTarget(target);
+                }}
+                className="w-full mt-2 bg-yellow-400/10 hover:bg-yellow-400/20 text-yellow-500 border border-yellow-400/30 py-2.5 rounded-xl text-xs font-black flex items-center justify-center space-x-1"
+              >
+                <CheckCircle size={15} />
+                <span>C'est retrouvé / Clôturer cette annonce</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* MODALE RETROUVÉ */}
       {resolvePostTarget && (
