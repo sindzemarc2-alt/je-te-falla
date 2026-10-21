@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, PlusCircle, MapPin, Phone, MessageSquare, 
   AlertTriangle, Package, Users, X, Loader, Share2, 
-  Sparkles, SlidersHorizontal, ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar
+  Sparkles, SlidersHorizontal, ShieldCheck, Moon, Sun, ArrowUpDown, Send, MessageCircle, UploadCloud, CheckCircle, Calendar, Plus
 } from 'lucide-react';
 import { 
   ajouterAnnonce, 
@@ -34,7 +34,7 @@ export default function App() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedVille, setSelectedVille] = useState('Toutes les villes');
   const [selectedCategory, setSelectedCategory] = useState('Toutes');
-  const [selectedDateFilter, setSelectedDateFilter] = useState('toutes'); // NOUVEAU FILTRE PAR DATE
+  const [selectedDateFilter, setSelectedDateFilter] = useState('toutes');
   const [showOnlyUrgent, setShowOnlyUrgent] = useState(false);
   const [sortBy, setSortBy] = useState('recents');
 
@@ -109,7 +109,6 @@ export default function App() {
       if (activeTab === 'objet' && selectedCategory !== 'Toutes' && post.category !== selectedCategory) return false;
       if (showOnlyUrgent && !post.urgent) return false;
 
-      // Logique du filtre par date
       if (selectedDateFilter !== 'toutes') {
         const postDateMillis = post.createdAt?.seconds ? post.createdAt.seconds * 1000 : Date.now();
         const now = Date.now();
@@ -245,7 +244,7 @@ export default function App() {
       darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-100 text-slate-900'
     }`}>
       
-      {/* 🖼️ FILIGRANE / LOGO EN ARRIÈRE-PLAN */}
+      {/* FILIGRANE */}
       <div className="fixed inset-0 pointer-events-none z-0 flex items-center justify-center overflow-hidden">
         <img 
           src={logoImg} 
@@ -280,7 +279,7 @@ export default function App() {
               <img 
                 src={logoImg} 
                 alt="Logo Je Te Falla" 
-                className="h-16 sm:h-20 w-auto object-contain rounded-xl"
+                className="h-14 sm:h-20 w-auto object-contain rounded-xl"
               />
             </div>
           </div>
@@ -295,6 +294,7 @@ export default function App() {
               {darkMode ? <Sun size={18} /> : <Moon size={18} />}
             </button>
 
+            {/* BOUTON PUBLIER DANS LE HEADER (VISIBLE PARTOUT MAINTENANT) */}
             <button 
               onClick={() => {
                 setNewPost(prev => ({ 
@@ -305,10 +305,11 @@ export default function App() {
                 setImagePreview(null);
                 setIsModalOpen(true);
               }}
-              className="hidden sm:flex bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-extrabold px-5 py-2.5 rounded-2xl shadow-lg transition-all items-center space-x-2 text-xs uppercase tracking-wider"
+              className="bg-gradient-to-r from-yellow-400 to-amber-400 hover:from-yellow-300 hover:to-amber-300 text-emerald-950 font-extrabold px-3.5 sm:px-5 py-2.5 rounded-2xl shadow-lg transition-all flex items-center space-x-1.5 text-xs uppercase tracking-wider"
             >
               <PlusCircle size={18} />
-              <span>Publier une annonce</span>
+              <span className="hidden sm:inline">Publier une annonce</span>
+              <span className="inline sm:hidden">Publier</span>
             </button>
           </div>
         </div>
@@ -332,11 +333,28 @@ export default function App() {
               }`}
             >
               <Package size={18} className={activeTab === 'objet' ? 'text-yellow-400' : ''} />
-              <span className="text-xs sm:text-sm uppercase tracking-wider">🔍 Objets Perdus / Trouvés</span>
+              <span className="text-xs sm:text-sm uppercase tracking-wider">🔍 Objets Perdus</span>
             </button>
           </div>
         </div>
       </header>
+
+      {/* BOUTON FLOTTANT EN BAS À DROITE POUR TÉLÉPHONE */}
+      <button
+        onClick={() => {
+          setNewPost(prev => ({ 
+            ...prev, 
+            type: activeTab,
+            category: activeTab === 'recherche' ? 'Personne disparue' : 'Pièce d\'identité (CNI)'
+          }));
+          setImagePreview(null);
+          setIsModalOpen(true);
+        }}
+        className="fixed bottom-6 right-6 z-40 bg-gradient-to-r from-yellow-400 to-amber-500 text-emerald-950 p-4 rounded-full shadow-2xl flex items-center justify-center border-4 border-white dark:border-slate-900 animate-bounce hover:scale-110 transition-transform"
+        title="Publier une annonce"
+      >
+        <Plus size={28} className="stroke-[3]" />
+      </button>
 
       {/* BANNIÈRE */}
       <section className={`py-8 relative overflow-hidden shadow-lg border-b-4 border-yellow-400 z-10 ${
@@ -370,7 +388,7 @@ export default function App() {
         </div>
       </section>
 
-      {/* RECHERCHE, VILLES ET FILTRE PAR DATE */}
+      {/* RECHERCHE ET FILTRES */}
       <div className="max-w-6xl mx-auto px-4 -mt-6 relative z-20">
         <div className={`rounded-3xl shadow-xl p-4 border transition-colors ${
           darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-white/95 border-slate-200/80'
@@ -404,7 +422,6 @@ export default function App() {
               </select>
             </div>
 
-            {/* NOUVEAU SELECTEUR DE FILTRE PAR DATE */}
             <div className="w-full md:w-52 relative">
               <Calendar className="absolute left-3.5 top-3.5 text-blue-400" size={18} />
               <select
@@ -489,7 +506,8 @@ export default function App() {
             darkMode ? 'bg-slate-900/90 border-slate-800' : 'bg-white/90 border-slate-300'
           }`}>
             <AlertTriangle className="mx-auto text-amber-500 mb-3" size={48} />
-            <h4 className="text-lg font-bold">Aucune annonce active trouvée pour ces critères</h4>
+            <h4 className="text-lg font-bold">Aucune annonce active trouvée</h4>
+            <p className="text-xs text-slate-400 mt-2">Cliquez sur le bouton ➕ en bas à droite pour publier la première !</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -763,7 +781,7 @@ export default function App() {
           }`}>
             <div className="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10 dark:bg-slate-900">
               <div className="flex items-center space-x-2">
-                <img src="/logo.png" alt="Logo" className="h-10 w-auto" />
+                <img src={logoImg} alt="Logo" className="h-10 w-auto" />
                 <div>
                   <h3 className="font-extrabold text-sm">
                     Publier : {activeTab === 'recherche' ? '📢 Avis de recherche' : '🔍 Objet perdu / trouvé'}
